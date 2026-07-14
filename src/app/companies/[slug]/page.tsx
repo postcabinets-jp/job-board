@@ -62,21 +62,21 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
               <h1 className="text-xl font-bold text-neutral-900">{typedCompany.name}</h1>
               <div className="flex flex-wrap gap-3 mt-1 text-sm text-neutral-500">
                 {typedCompany.industry && <span>{typedCompany.industry}</span>}
-                {typedCompany.location && (
+                {typedCompany.size_range && (
                   <span className="inline-flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5" />
-                    {typedCompany.location}
+                    {typedCompany.size_range}名
                   </span>
                 )}
-                {typedCompany.website && (
+                {typedCompany.website_url && (
                   <a
-                    href={typedCompany.website}
+                    href={typedCompany.website_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 hover:text-neutral-900"
                   >
                     <Globe className="w-3.5 h-3.5" />
-                    {typedCompany.website.replace(/^https?:\/\//, '')}
+                    {typedCompany.website_url.replace(/^https?:\/\//, '')}
                   </a>
                 )}
               </div>

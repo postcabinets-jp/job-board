@@ -20,7 +20,7 @@ export default async function SettingsPage() {
     <div>
       <h1 className="text-xl font-bold text-neutral-900 mb-6">企業プロフィール設定</h1>
       <div className="bg-white border border-neutral-200 rounded-2xl p-6">
-        <CompanySettingsForm company={company as unknown as Company | undefined} />
+        <CompanySettingsForm company={(company as unknown as Company) ?? null} isAdmin={true} />
       </div>
     </div>
   )

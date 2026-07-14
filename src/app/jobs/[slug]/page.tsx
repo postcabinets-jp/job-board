@@ -60,7 +60,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
   if (!data) notFound()
 
   const job = data as unknown as JobWithCompany
-  const salary = formatSalary(job.salary_min, job.salary_max, job.currency)
+  const salary = formatSalary(job.salary_min, job.salary_max, job.salary_currency)
 
   return (
     <div className="min-h-screen bg-white">
@@ -95,9 +95,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                 {job.company.name}
               </Link>
               <div className="flex flex-wrap gap-2 mt-3">
-                <Badge variant="secondary">{remoteLabels[job.remote_type]}</Badge>
-                <Badge variant="outline">{employmentLabels[job.employment_type]}</Badge>
-                <Badge variant="outline">{categoryLabels[job.category]}</Badge>
+                {job.remote_policy && <Badge variant="secondary">{remoteLabels[job.remote_policy]}</Badge>}
+                {job.employment_type && <Badge variant="outline">{employmentLabels[job.employment_type]}</Badge>}
               </div>
             </div>
 
@@ -138,11 +137,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
                   <Clock className="w-4 h-4 text-neutral-400" />
                   {new Date(job.created_at).toLocaleDateString('ja-JP')} 掲載
                 </div>
-                {job.expires_at && (
-                  <div className="flex items-center gap-2 text-neutral-500 text-xs">
-                    掲載期限: {new Date(job.expires_at).toLocaleDateString('ja-JP')}
-                  </div>
-                )}
               </div>
             </div>
 
@@ -165,10 +159,10 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
               {job.company.description && (
                 <p className="text-xs text-neutral-500 line-clamp-2">{job.company.description}</p>
               )}
-              {job.company.website && (
+              {job.company.website_url && (
                 <div className="flex items-center gap-1 mt-2 text-xs text-neutral-400">
                   <Globe className="w-3 h-3" />
-                  {job.company.website.replace(/^https?:\/\//, '')}
+                  {job.company.website_url.replace(/^https?:\/\//, '')}
                 </div>
               )}
             </Link>

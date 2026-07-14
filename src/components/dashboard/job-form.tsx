@@ -89,7 +89,7 @@ export function JobForm({ companyId, job }: Props) {
             name="category"
             required
             className="w-full h-9 rounded-lg border border-input bg-background px-3 text-sm"
-            defaultValue={job?.category || 'engineering'}
+            defaultValue={'engineering'}
           >
             {categories.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
@@ -98,13 +98,13 @@ export function JobForm({ companyId, job }: Props) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="remote_type">勤務形態 *</Label>
+          <Label htmlFor="remote_policy">勤務形態 *</Label>
           <select
-            id="remote_type"
-            name="remote_type"
+            id="remote_policy"
+            name="remote_policy"
             required
             className="w-full h-9 rounded-lg border border-input bg-background px-3 text-sm"
-            defaultValue={job?.remote_type || 'onsite'}
+            defaultValue={job?.remote_policy || 'onsite'}
           >
             {remoteTypes.map((r) => (
               <option key={r.value} value={r.value}>{r.label}</option>
@@ -143,8 +143,8 @@ export function JobForm({ companyId, job }: Props) {
           <Input id="salary_max" name="salary_max" type="number" min={0} defaultValue={job?.salary_max || ''} placeholder="例: 8000000" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="currency">通貨</Label>
-          <Input id="currency" name="currency" defaultValue={job?.currency || 'JPY'} placeholder="JPY" />
+          <Label htmlFor="salary_currency">通貨</Label>
+          <Input id="salary_currency" name="salary_currency" defaultValue={job?.salary_currency || 'JPY'} placeholder="JPY" />
         </div>
       </div>
 

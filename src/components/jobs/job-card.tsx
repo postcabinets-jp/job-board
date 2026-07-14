@@ -29,7 +29,7 @@ function formatSalary(min: number | null, max: number | null, currency: string) 
 }
 
 export function JobCard({ job }: { job: JobWithCompany }) {
-  const salary = formatSalary(job.salary_min, job.salary_max, job.currency)
+  const salary = formatSalary(job.salary_min, job.salary_max, job.salary_currency)
 
   return (
     <Link
@@ -50,12 +50,16 @@ export function JobCard({ job }: { job: JobWithCompany }) {
                 {job.location}
               </span>
             )}
-            <Badge variant="secondary" className="text-xs">
-              {remoteLabels[job.remote_type] || job.remote_type}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              {employmentLabels[job.employment_type] || job.employment_type}
-            </Badge>
+            {job.remote_policy && (
+              <Badge variant="secondary" className="text-xs">
+                {remoteLabels[job.remote_policy] || job.remote_policy}
+              </Badge>
+            )}
+            {job.employment_type && (
+              <Badge variant="outline" className="text-xs">
+                {employmentLabels[job.employment_type] || job.employment_type}
+              </Badge>
+            )}
             {salary && (
               <span className="text-xs text-neutral-600 font-medium">{salary}</span>
             )}

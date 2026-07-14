@@ -85,7 +85,7 @@ export default async function ApplicationsPage({ params }: { params: Promise<{ j
                   return (
                     <tr key={app.id} className="border-b border-neutral-50 last:border-0">
                       <td className="px-4 py-3 font-mono text-xs text-neutral-500">
-                        {app.applicant_id.slice(0, 8)}...
+                        {app.candidate_id.slice(0, 8)}...
                       </td>
                       <td className="px-4 py-3">
                         <Badge variant="outline" className={status.className}>
@@ -93,7 +93,7 @@ export default async function ApplicationsPage({ params }: { params: Promise<{ j
                         </Badge>
                       </td>
                       <td className="px-4 py-3 text-neutral-500">
-                        {new Date(app.applied_at).toLocaleDateString('ja-JP')}
+                        {new Date(app.created_at).toLocaleDateString('ja-JP')}
                       </td>
                       <td className="px-4 py-3 text-neutral-500 max-w-xs truncate">
                         {app.cover_letter || '-'}

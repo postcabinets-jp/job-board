@@ -30,6 +30,11 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  // Skip Supabase operations if env vars are not configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
