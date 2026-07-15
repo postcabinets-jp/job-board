@@ -30,8 +30,21 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  const { pathname } = request.nextUrl
+
   // Skip Supabase operations if env vars are not configured
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    // Still protect dashboard routes via cookie-based fallback
+    if (pathname.startsWith('/dashboard')) {
+      const hasAuthCookie = request.cookies.getAll().some(
+        (cookie) => cookie.name.includes('-auth-token')
+      )
+      if (!hasAuthCookie) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/login'
+        return NextResponse.redirect(url)
+      }
+    }
     return NextResponse.next({ request })
   }
 
@@ -62,11 +75,22 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  const { pathname } = request.nextUrl
+  let user = null
+  try {
+    const { data } = await supabase.auth.getUser()
+    user = data.user
+  } catch {
+    // Supabase unavailable — fall back to cookie-based auth check
+    const hasAuthCookie = request.cookies.getAll().some(
+      (cookie) => cookie.name.includes('-auth-token')
+    )
+    if (request.nextUrl.pathname.startsWith('/dashboard') && !hasAuthCookie) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+    return supabaseResponse
+  }
 
   // Protected routes
   if (pathname.startsWith('/dashboard') && !user) {
