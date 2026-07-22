@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node -e \"try{const fs=require('fs'),info=JSON.parse(fs.readFileSync('.next/dev/lock','utf-8'));if(info&&info.pid){process.kill(info.pid);require('child_process').execSync('sleep 1')}}catch(e){}\"",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
